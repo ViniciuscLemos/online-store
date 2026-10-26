@@ -754,12 +754,12 @@ button:focus-visible {
 
 .product-image.thumb {
   width: 76px;
-  border-radius: 12px;
+  border-radius: var(--radius);
 }
 
 .product-image.tiny {
   width: 44px;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .price {
@@ -1279,7 +1279,7 @@ button.link.remove:hover {
   border-radius: var(--radius);
   padding: 12px 14px;
   margin: 16px 0;
-  font-family: ui-monospace, monospace;
+  font-family: var(--mono);
 }
 
 /* inbox */
@@ -1296,15 +1296,18 @@ button.link.remove:hover {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  border-top: 1px solid var(--border);
 }
 
 .mail {
   width: 100%;
   text-align: left;
-  background: var(--card);
+  background: transparent;
   color: var(--text);
-  border: 1px solid var(--border);
+  border-radius: 0;
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding: 12px 14px;
   display: flex;
   flex-direction: column;
   font-weight: 400;
@@ -1315,15 +1318,15 @@ button.link.remove:hover {
 }
 
 .mail.active {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+  border-left-color: var(--accent);
+  background: var(--card);
 }
 
 .inbox iframe {
   width: 100%;
   min-height: 520px;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius);
   background: #fff;
 }
 
@@ -1342,24 +1345,20 @@ button.link.remove:hover {
 
 .tabs {
   display: flex;
-  gap: 6px;
-  background: var(--soft);
-  padding: 4px;
-  border-radius: 12px;
+  gap: 22px;
   margin-bottom: 16px;
 }
 
 .tabs a {
-  padding: 6px 14px;
-  border-radius: 8px;
+  padding: 6px 0;
   color: var(--muted);
   font-weight: 600;
+  border-bottom: 2px solid transparent;
 }
 
 .tabs a.active {
-  background: var(--card);
   color: var(--text);
-  box-shadow: var(--shadow);
+  border-bottom-color: var(--text);
 }
 
 .tabs a:hover {
@@ -1369,9 +1368,8 @@ button.link.remove:hover {
 .table-wrap {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius);
   overflow-x: auto;
-  box-shadow: var(--shadow);
   padding-bottom: 8px;
 }
 
@@ -1385,9 +1383,10 @@ th {
   text-align: left;
   color: var(--muted);
   font-weight: 600;
-  font-size: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
   padding: 12px 14px;
   border-bottom: 1px solid var(--border);
 }
@@ -1432,7 +1431,7 @@ tr.archived td {
   background: var(--text);
   color: var(--bg);
   padding: 12px 20px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   font-weight: 500;
   z-index: 20;
