@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { api } from '../api';
 import { money, shortId } from '../format';
+import { Loading } from '../components/common';
 import NotFound from './NotFound';
 
 // Stands in for Stripe's payment page when the store runs without Stripe keys.
@@ -30,7 +31,7 @@ export default function DemoCheckout() {
     }
   }
 
-  if (order === undefined) return <p className="muted center">Loading...</p>;
+  if (order === undefined) return <Loading text="Opening the checkout..." />;
   if (order === null) return <NotFound />;
 
   return (

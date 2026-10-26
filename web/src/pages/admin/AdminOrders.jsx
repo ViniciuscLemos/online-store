@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '../../api';
-import { Pagination, StatusBadge } from '../../components/common';
+import { Loading, Pagination, StatusBadge } from '../../components/common';
 import { date, money, shortId } from '../../format';
 import { useStore } from '../../store';
 
@@ -43,7 +43,7 @@ export default function AdminOrders() {
       </div>
 
       {!data ? (
-        <p className="muted">Loading...</p>
+        <Loading />
       ) : (
         <div className="table-wrap">
           <table>

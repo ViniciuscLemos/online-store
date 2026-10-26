@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import Layout from './components/Layout';
+import { Loading } from './components/common';
 import { useStore } from './store';
 import Shop from './pages/Shop';
 import ProductPage from './pages/ProductPage';
@@ -16,7 +17,7 @@ import NotFound from './pages/NotFound';
 function Private({ children, admin = false }) {
   const { user } = useStore();
   const location = useLocation();
-  if (user === undefined) return <p className="muted center">Loading...</p>;
+  if (user === undefined) return <Loading />;
   if (!user) return <Navigate to={`/login?next=${encodeURIComponent(location.pathname + location.search)}`} replace />;
   if (admin && user.role !== 'admin') return <NotFound />;
   return children;

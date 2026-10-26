@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { api, fieldErrors } from '../../api';
-import { Field, Pagination, ProductImage } from '../../components/common';
+import { Field, Loading, Pagination, ProductImage } from '../../components/common';
 import { money, toCents } from '../../format';
 import { useStore } from '../../store';
 
@@ -125,7 +125,7 @@ export default function AdminProducts() {
       )}
 
       {!data ? (
-        <p className="muted">Loading...</p>
+        <Loading />
       ) : (
         <div className="table-wrap">
           <table>

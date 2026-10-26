@@ -69,6 +69,16 @@ export function ProductCard({ product }) {
   );
 }
 
+// small spinner for the pages that don't have a skeleton
+export function Loading({ text = 'Loading...' }) {
+  return (
+    <div className="loading" role="status">
+      <span className="spinner" aria-hidden="true" />
+      {text}
+    </div>
+  );
+}
+
 // gray blocks with the shape of the content while it loads
 export function Skeleton({ width = '100%', height = 16, radius = 8, style }) {
   return <span className="skeleton" style={{ width, height, borderRadius: radius, ...style }} />;

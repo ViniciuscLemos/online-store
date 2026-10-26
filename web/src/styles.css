@@ -719,12 +719,35 @@ button:focus-visible {
   animation: shimmer 1.4s infinite;
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 0;
+  color: var(--muted);
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-top-color: var(--text);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 @keyframes shimmer {
   to { background-position: -200% 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none; }
+  .spinner { animation-duration: 2s; }
 }
 
 .stack {

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from '../../api';
 import { date } from '../../format';
 import { useStore } from '../../store';
+import { Loading } from '../../components/common';
 
 export default function AdminUsers() {
   const { user: me, notify } = useStore();
@@ -27,7 +28,7 @@ export default function AdminUsers() {
     }
   }
 
-  if (!users) return <p className="muted">Loading...</p>;
+  if (!users) return <Loading />;
 
   return (
     <div className="table-wrap">

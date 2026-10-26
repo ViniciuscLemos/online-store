@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api';
+import { Loading } from '../components/common';
 import { date } from '../format';
 import { useStore } from '../store';
 
@@ -18,7 +19,7 @@ export default function Inbox() {
   }, []);
 
   if (error) return <p className="error-box">{error}</p>;
-  if (!emails) return <p className="muted center">Loading...</p>;
+  if (!emails) return <Loading text="Loading your emails..." />;
 
   const current = emails[open];
 
