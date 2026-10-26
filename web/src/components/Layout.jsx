@@ -53,6 +53,62 @@ function HeaderSearch() {
   );
 }
 
+function Footer() {
+  const { user, config } = useStore();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    api.get('/products/categories').then((r) => setCategories(r.categories)).catch(() => {});
+  }, []);
+
+  return (
+    <footer className="footer">
+      <div className="container footer-grid">
+        <div className="footer-about">
+          <Link to="/" className="logo">
+            <img src="/favicon.svg" alt="" width="26" height="26" />
+            Online Store
+          </Link>
+          <p>
+            A small store I built to learn how payments, stock and emails work for real. The products are made up, the code
+            isn't.
+          </p>
+        </div>
+        <nav aria-label="Shop">
+          <h2 className="label">Shop</h2>
+          <ul>
+            <li><Link to="/">All products</Link></li>
+            {categories.map((c) => (
+              <li key={c}><Link to={`/?category=${encodeURIComponent(c)}`}>{c}</Link></li>
+            ))}
+          </ul>
+        </nav>
+        <nav aria-label="Your account">
+          <h2 className="label">Account</h2>
+          <ul>
+            {!user && <li><Link to="/login">Log in</Link></li>}
+            {!user && <li><Link to="/register">Create an account</Link></li>}
+            <li><Link to="/cart">Cart</Link></li>
+            <li><Link to="/orders">Orders</Link></li>
+            {config.email === 'outbox' && <li><Link to="/inbox">Inbox</Link></li>}
+          </ul>
+        </nav>
+        <nav aria-label="About the project">
+          <h2 className="label">The project</h2>
+          <ul>
+            <li><a href="https://github.com/ViniciuscLemos/online-store" target="_blank" rel="noreferrer">Source code</a></li>
+            <li><a href="https://github.com/ViniciuscLemos" target="_blank" rel="noreferrer">More of my projects</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div className="container footer-bottom">
+        <span>© {new Date().getFullYear()} Vinicius Lemos</span>
+        {config.payments === 'demo' && <span>Payments use a fake checkout, no card needed.</span>}
+      </div>
+    </footer>
+  );
+}
+
 export default function Layout() {
   const { user, cart, config, logout, toast } = useStore();
   const navigate = useNavigate();
@@ -102,18 +158,7 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="container footer">
-        {demo && (
-          <p>
-            Demo mode: {config.payments === 'demo' ? 'payments use a fake checkout' : 'payments go through Stripe'}
-            {config.email === 'outbox' && ' and emails show up in the Inbox page instead of being sent'}.
-          </p>
-        )}
-        <p>
-          Made by <a href="https://github.com/ViniciuscLemos" target="_blank" rel="noreferrer">Vinicius Lemos</a> ·{' '}
-          <a href="https://github.com/ViniciuscLemos/online-store" target="_blank" rel="noreferrer">source code</a>
-        </p>
-      </footer>
+      <Footer />
 
       {toast && <div key={toast.id} className={`toast ${toast.type}`}>{toast.message}</div>}
     </div>

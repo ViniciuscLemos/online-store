@@ -22,6 +22,10 @@
   --red-soft: #f9e0dc;
   --amber: #8f5300;
   --amber-soft: #f6e7c8;
+  --footer-bg: #1c1b18;
+  --footer-text: #b5aea2;
+  --footer-strong: #f5f2ec;
+  --footer-line: #34312b;
   --radius: 6px;
   --shadow: 0 1px 2px rgba(28, 27, 24, 0.06);
 }
@@ -48,6 +52,10 @@
     --red-soft: #3a1a16;
     --amber: #e9b44c;
     --amber-soft: #3a2c10;
+    --footer-bg: #0e0d0b;
+    --footer-text: #a8a196;
+    --footer-strong: #efe9de;
+    --footer-line: #2a2823;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 }
@@ -76,8 +84,7 @@ a:hover {
 
 /* a link in the middle of a sentence is underlined, so it doesn't depend only on the color */
 p a,
-.banner a,
-.footer a {
+.banner a {
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -125,8 +132,8 @@ h2 {
 main.container {
   flex: 1;
   width: 100%;
-  padding-top: 28px;
-  padding-bottom: 40px;
+  padding-top: 32px;
+  padding-bottom: 32px;
 }
 
 /* buttons and inputs */
@@ -389,14 +396,62 @@ button:focus-visible {
 }
 
 .footer {
-  color: var(--muted);
-  font-size: 0.85rem;
-  text-align: center;
-  padding-bottom: 28px;
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  font-size: 0.9rem;
+  margin-top: 40px;
 }
 
-.footer p {
-  margin: 4px 0;
+/* .footer in front so the phone padding of .container doesn't wipe the vertical padding */
+.footer .footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 32px;
+  padding-top: 48px;
+  padding-bottom: 40px;
+}
+
+.footer .logo {
+  color: var(--footer-strong);
+}
+
+.footer-about p {
+  max-width: 320px;
+  margin: 14px 0 0;
+}
+
+.footer .label {
+  color: var(--footer-strong);
+  margin: 4px 0 14px;
+  font-weight: 600;
+}
+
+.footer ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer nav a {
+  color: var(--footer-text);
+}
+
+.footer nav a:hover {
+  color: var(--footer-strong);
+}
+
+.footer .footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  border-top: 1px solid var(--footer-line);
+  padding-top: 18px;
+  padding-bottom: 24px;
+  font-size: 0.8rem;
 }
 
 /* shop */
@@ -1254,6 +1309,14 @@ tr.archived td {
   .inbox,
   .feature {
     grid-template-columns: 1fr;
+  }
+
+  .footer .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-about {
+    grid-column: 1 / -1;
   }
 
   .feature {
