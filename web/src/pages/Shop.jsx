@@ -8,7 +8,6 @@ export default function Shop() {
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
-  const [search, setSearch] = useState(params.get('search') ?? '');
 
   const category = params.get('category') ?? '';
   const sort = params.get('sort') ?? 'newest';
@@ -57,16 +56,6 @@ export default function Shop() {
       </section>
 
       <div className="filters">
-        <form
-          className="search"
-          onSubmit={(e) => {
-            e.preventDefault();
-            update({ search: search.trim() });
-          }}
-        >
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search products" aria-label="Search" />
-          <button type="submit">Search</button>
-        </form>
         <select value={sort} onChange={(e) => update({ sort: e.target.value })} aria-label="Sort">
           <option value="newest">Newest</option>
           <option value="price_asc">Price: low to high</option>
