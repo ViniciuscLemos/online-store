@@ -197,6 +197,7 @@ button.full {
 .small-button {
   padding: 6px 12px;
   font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 input,
