@@ -271,6 +271,7 @@ button:focus-visible {
   text-align: center;
   font-size: 0.8rem;
   padding: 7px 16px;
+  text-wrap: balance;
 }
 
 .topbar {
@@ -1501,7 +1502,7 @@ tr.archived td {
     gap: 24px;
   }
 
-  .topbar-inner {
+  .topbar .topbar-inner {
     flex-wrap: wrap;
     height: auto;
     gap: 10px 16px;
