@@ -36,7 +36,7 @@ test('a visitor browses, filters and opens a product', async ({ page }) => {
   // otherwise it could still read the cards of the unfiltered list
   const cards = page.locator('.product-card');
   await expect(cards).toHaveCount(2);
-  for (const text of await cards.allInnerTexts()) expect(text).toContain('Mugs');
+  for (const text of await cards.allTextContents()) expect(text).toContain('Mugs');
 
   await page.getByRole('link', { name: /Classic Coffee Mug/ }).click();
   await expect(page.getByRole('heading', { name: 'Classic Coffee Mug' })).toBeVisible();
