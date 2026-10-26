@@ -42,7 +42,7 @@ export default function DemoCheckout() {
         {order.items.map((i) => (
           <li key={i.productId} className="row-between">
             <span>{i.quantity}x {i.name}</span>
-            <span>{money(i.unitPriceCents * i.quantity)}</span>
+            <span className="price">{money(i.unitPriceCents * i.quantity)}</span>
           </li>
         ))}
       </ul>

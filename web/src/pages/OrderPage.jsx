@@ -88,22 +88,22 @@ export default function OrderPage() {
       {justPaid && order.status === 'paid' && <p className="success-box">Payment confirmed! We sent you an email with the details.</p>}
       {justPaid && order.status === 'pending' && <p className="muted">Confirming the payment...</p>}
 
+      <Steps order={order} />
+
       <div className="card">
         <ul className="order-items">
           {order.items.map((i) => (
             <li key={i.productId} className="row-between">
               <span>{i.quantity}x {i.name}</span>
-              <span>{money(i.unitPriceCents * i.quantity)}</span>
+              <span className="price">{money(i.unitPriceCents * i.quantity)}</span>
             </li>
           ))}
         </ul>
         <div className="row-between total">
           <span>Total</span>
-          <strong>{money(order.totalCents)}</strong>
+          <strong className="price">{money(order.totalCents)}</strong>
         </div>
       </div>
-
-      <Steps order={order} />
 
       {order.status === 'pending' && (
         <div className="actions">

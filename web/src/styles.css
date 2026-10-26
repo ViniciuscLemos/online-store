@@ -1109,9 +1109,11 @@ button.link.remove:hover {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  border-top: 1px solid var(--text);
+}
+
+.order-list li {
+  border-bottom: 1px solid var(--border);
 }
 
 .order-row {
@@ -1120,12 +1122,12 @@ button.link.remove:hover {
   align-items: center;
   gap: 16px;
   color: var(--text);
-  padding: 16px 20px;
+  padding: 18px 4px;
 }
 
 .order-row:hover {
   text-decoration: none;
-  border-color: var(--accent);
+  background: var(--soft);
 }
 
 .order-row p {
@@ -1137,10 +1139,13 @@ button.link.remove:hover {
 }
 
 .status {
-  font-size: 0.78rem;
-  font-weight: 700;
-  border-radius: 99px;
-  padding: 3px 10px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  padding: 4px 8px;
   white-space: nowrap;
   background: var(--soft);
   color: var(--muted);
@@ -1179,7 +1184,7 @@ button.link.remove:hover {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  margin: 18px 0;
+  margin: 24px 0;
   padding: 0;
 }
 
@@ -1252,10 +1257,13 @@ button.link.remove:hover {
   display: inline-block;
   background: var(--amber-soft);
   color: var(--amber);
-  font-size: 0.8rem;
-  font-weight: 700;
-  border-radius: 99px;
-  padding: 3px 12px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  padding: 4px 8px;
   margin: 0 0 12px;
 }
 
@@ -1268,7 +1276,7 @@ button.link.remove:hover {
   justify-content: space-between;
   align-items: center;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   padding: 12px 14px;
   margin: 16px 0;
   font-family: ui-monospace, monospace;

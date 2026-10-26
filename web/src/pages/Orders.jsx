@@ -33,13 +33,13 @@ export default function Orders() {
       <ul className="order-list">
         {orders.map((o) => (
           <li key={o.id}>
-            <Link to={`/orders/${o.id}`} className="card order-row">
+            <Link to={`/orders/${o.id}`} className="order-row">
               <div>
                 <strong>Order #{shortId(o.id)}</strong>
                 <p className="muted small">{date(o.createdAt)} · {o.items.reduce((n, i) => n + i.quantity, 0)} items</p>
               </div>
               <StatusBadge status={o.status} />
-              <strong>{money(o.totalCents)}</strong>
+              <strong className="price">{money(o.totalCents)}</strong>
             </Link>
           </li>
         ))}
