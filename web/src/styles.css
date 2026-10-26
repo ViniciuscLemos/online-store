@@ -400,93 +400,106 @@ button:focus-visible {
 }
 
 /* shop */
-.hero {
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 48px;
+  padding-bottom: 40px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--border);
+}
+
+.feature-image img {
+  display: block;
+  width: 100%;
+  max-height: 440px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.feature-text h2 {
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin: 10px 0 16px;
+}
+
+.feature-text > p:not(.label) {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 420px;
+  margin: 0 0 26px;
+}
+
+.feature-buy {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  background: linear-gradient(120deg, var(--accent-soft), var(--card));
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 34px 32px;
-  margin-bottom: 24px;
-  overflow: hidden;
+  gap: 22px;
 }
 
-/* three products leaning on each other on the right of the hero */
-.hero-art {
-  position: relative;
-  flex: none;
-  width: 260px;
-  height: 130px;
-}
-
-.hero-art img {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border-radius: 22px;
-  background: var(--card);
-  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.12);
-}
-
-.hero-art img:nth-child(1) { left: 0; top: 14px; transform: rotate(-8deg); }
-.hero-art img:nth-child(2) { left: 70px; top: -6px; z-index: 1; }
-.hero-art img:nth-child(3) { left: 140px; top: 14px; transform: rotate(8deg); }
-
-.hero h1 {
-  font-size: 2rem;
-  margin-bottom: 8px;
-}
-
-.hero p {
+.feature-buy .price.big {
   margin: 0;
-  max-width: 560px;
 }
 
-.filters {
+.catalog-head {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
   margin-bottom: 14px;
-  flex-wrap: wrap;
 }
 
-.filters > input,
-.filters > select {
+.catalog-head h1 {
+  margin: 0;
+}
+
+.catalog-head p {
+  margin: 4px 0 0;
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.sort select {
   width: auto;
+  padding: 7px 10px;
 }
 
-.filters .search {
+/* category filter: plain words with a line under the active one */
+.categories {
   display: flex;
-  gap: 8px;
-  flex: 1;
-  min-width: 240px;
+  gap: 26px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 26px;
+  scrollbar-width: none;
 }
 
-.chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
-}
-
-.chip {
-  background: var(--card);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 99px;
-  padding: 6px 16px;
+.categories button {
+  background: none;
+  color: var(--muted);
+  border-radius: 0;
+  padding: 10px 0;
   font-weight: 500;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
 }
 
-.chip:hover:not(:disabled) {
-  background: var(--soft);
+.categories button:hover:not(:disabled) {
+  background: none;
+  color: var(--text);
 }
 
-.chip.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--on-accent);
+.categories button[aria-pressed='true'] {
+  color: var(--text);
+  border-bottom-color: var(--text);
+  font-weight: 600;
 }
 
 .grid {
@@ -998,6 +1011,18 @@ button:focus-visible {
 }
 
 /* admin */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.filters > input,
+.filters > select {
+  width: auto;
+}
+
 .tabs {
   display: flex;
   gap: 6px;
@@ -1105,8 +1130,19 @@ tr.archived td {
 @media (max-width: 800px) {
   .product-page,
   .cart-page,
-  .inbox {
+  .inbox,
+  .feature {
     grid-template-columns: 1fr;
+  }
+
+  .feature {
+    gap: 24px;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+  }
+
+  .feature-image img {
+    aspect-ratio: 4 / 3;
   }
 
   .summary {
@@ -1148,16 +1184,9 @@ tr.archived td {
     height: 26px;
   }
 
-  .hero {
-    padding: 24px 20px;
-  }
-
-  .hero h1 {
-    font-size: 1.5rem;
-  }
-
-  .hero-art {
-    display: none;
+  .catalog-head {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .cart-text {

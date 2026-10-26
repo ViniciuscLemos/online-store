@@ -1,7 +1,40 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { api } from '../api';
 import { Pagination, ProductCard, ProductGridSkeleton } from '../components/common';
+import { money } from '../format';
+
+// the hoodie is my favorite of the sample products, so it gets the top of the page.
+// If an admin archives it, the block just doesn't show up
+const FEATURED = 'merge-conflict-hoodie';
+
+function Featured() {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    api.get(`/products/${FEATURED}`).then((r) => setProduct(r.product)).catch(() => {});
+  }, []);
+
+  if (!product) return null;
+  const link = `/products/${product.slug}`;
+
+  return (
+    <section className="feature" aria-labelledby="feature-title">
+      <Link to={link} className="feature-image" tabIndex={-1} aria-hidden="true">
+        <img src={product.imageUrl} alt="" />
+      </Link>
+      <div className="feature-text">
+        <p className="label">Staff pick</p>
+        <h2 id="feature-title">{product.name}</h2>
+        <p>{product.description}</p>
+        <div className="feature-buy">
+          <span className="price big">{money(product.priceCents)}</span>
+          <Link to={link} className="button">View product</Link>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function Shop() {
   const [params, setParams] = useSearchParams();
@@ -12,6 +45,7 @@ export default function Shop() {
   const category = params.get('category') ?? '';
   const sort = params.get('sort') ?? 'newest';
   const page = Number(params.get('page') ?? 1);
+  const search = params.get('search') ?? '';
 
   useEffect(() => {
     api.get('/products/categories').then((r) => setCategories(r.categories)).catch(() => {});
@@ -20,7 +54,7 @@ export default function Shop() {
   useEffect(() => {
     const query = new URLSearchParams({ sort, page, limit: 12 });
     if (category) query.set('category', category);
-    if (params.get('search')) query.set('search', params.get('search'));
+    if (search) query.set('search', search);
     api
       .get(`/products?${query}`)
       .then((r) => {
@@ -28,7 +62,7 @@ export default function Shop() {
         setError('');
       })
       .catch((e) => setError(e.message));
-  }, [params, category, sort, page]);
+  }, [search, category, sort, page]);
 
   // changing a filter goes back to page 1
   function update(changes) {
@@ -43,31 +77,28 @@ export default function Shop() {
 
   return (
     <>
-      <section className="hero">
-        <div>
-          <h1>Things for people who build things</h1>
-          <p className="muted">Mugs, apparel and desk gear. Every order is real code: Stripe, emails and stock that can run out.</p>
-        </div>
-        <div className="hero-art" aria-hidden="true">
-          <img src="/products/mug.svg" alt="" />
-          <img src="/products/hoodie.svg" alt="" />
-          <img src="/products/plant.svg" alt="" />
-        </div>
-      </section>
+      {!category && !search && page === 1 && <Featured />}
 
-      <div className="filters">
-        <select value={sort} onChange={(e) => update({ sort: e.target.value })} aria-label="Sort">
-          <option value="newest">Newest</option>
-          <option value="price_asc">Price: low to high</option>
-          <option value="price_desc">Price: high to low</option>
-          <option value="name">Name</option>
-        </select>
+      <div className="catalog-head">
+        <div>
+          <h1>{search ? `Results for "${search}"` : category || 'All products'}</h1>
+          {data && <p className="muted small">{data.total} {data.total === 1 ? 'product' : 'products'}</p>}
+        </div>
+        <label className="sort">
+          <span className="muted small">Sort by</span>
+          <select value={sort} onChange={(e) => update({ sort: e.target.value })}>
+            <option value="newest">Newest</option>
+            <option value="price_asc">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
+            <option value="name">Name</option>
+          </select>
+        </label>
       </div>
 
-      <div className="chips">
-        <button className={!category ? 'chip active' : 'chip'} onClick={() => update({ category: '' })}>All</button>
+      <div className="categories" role="group" aria-label="Categories">
+        <button aria-pressed={!category} onClick={() => update({ category: '' })}>All</button>
         {categories.map((c) => (
-          <button key={c} className={category === c ? 'chip active' : 'chip'} onClick={() => update({ category: c })}>
+          <button key={c} aria-pressed={category === c} onClick={() => update({ category: c })}>
             {c}
           </button>
         ))}

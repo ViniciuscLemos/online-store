@@ -27,7 +27,7 @@ async function confirmEmail(page: Page) {
 
 test('a visitor browses, filters and opens a product', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { name: 'Things for people who build things' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'All products', level: 1 })).toBeVisible();
   await expect(page.locator('.product-card')).toHaveCount(12);
 
   await page.getByRole('button', { name: 'Mugs', exact: true }).click();
