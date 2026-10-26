@@ -13,7 +13,7 @@ const escape = (s: string) =>
 function layout(title: string, paragraphs: string[], button?: { label: string; url: string }) {
   const body = paragraphs.map((p) => `<p style="margin:0 0 14px">${p}</p>`).join('');
   const action = button
-    ? `<p style="margin:22px 0"><a href="${escape(button.url)}" style="background:#4f46e5;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;display:inline-block">${escape(button.label)}</a></p>
+    ? `<p style="margin:22px 0"><a href="${escape(button.url)}" style="background:#1c1b18;color:#f5f2ec;padding:12px 20px;border-radius:6px;text-decoration:none;display:inline-block">${escape(button.label)}</a></p>
        <p style="margin:0;color:#6b7280;font-size:13px">If the button doesn't work, copy this link: ${escape(button.url)}</p>`
     : '';
   return `<div style="font-family:system-ui,sans-serif;max-width:520px;margin:0 auto;padding:24px;color:#111827">
