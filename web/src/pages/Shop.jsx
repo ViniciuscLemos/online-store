@@ -41,6 +41,8 @@ export default function Shop() {
   const [data, setData] = useState(null);
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
+  const [attempt, setAttempt] = useState(0);
+  const [slow, setSlow] = useState(false);
 
   const category = params.get('category') ?? '';
   const sort = params.get('sort') ?? 'newest';
@@ -55,14 +57,21 @@ export default function Shop() {
     const query = new URLSearchParams({ sort, page, limit: 12 });
     if (category) query.set('category', category);
     if (search) query.set('search', search);
+    // the free server sleeps when nobody uses it, so the first load can take a while
+    const timer = setTimeout(() => setSlow(true), 4000);
     api
       .get(`/products?${query}`)
       .then((r) => {
         setData(r);
         setError('');
       })
-      .catch((e) => setError(e.message));
-  }, [search, category, sort, page]);
+      .catch((e) => setError(e.message))
+      .finally(() => {
+        clearTimeout(timer);
+        setSlow(false);
+      });
+    return () => clearTimeout(timer);
+  }, [search, category, sort, page, attempt]);
 
   // changing a filter goes back to page 1
   function update(changes) {
@@ -104,11 +113,30 @@ export default function Shop() {
         ))}
       </div>
 
-      {error && <p className="error-box">{error}</p>}
-      {!data && !error && <ProductGridSkeleton />}
-      {data && data.products.length === 0 && <p className="muted center">No products found.</p>}
+      {error && (
+        <div className="notice error" role="alert">
+          <div>
+            <strong>Couldn't load the products.</strong>
+            <p>{error}</p>
+          </div>
+          <button className="secondary" onClick={() => setAttempt((n) => n + 1)}>Try again</button>
+        </div>
+      )}
+      {!data && !error && (
+        <>
+          {slow && <p className="muted small">The server was asleep (it's on a free plan), give it a few more seconds...</p>}
+          <ProductGridSkeleton />
+        </>
+      )}
+      {data && data.products.length === 0 && (
+        <div className="empty-state">
+          <h2>{search ? `Nothing matches "${search}"` : 'Nothing here yet'}</h2>
+          <p className="muted">Try another word or look at everything in the store.</p>
+          <button className="secondary" onClick={() => setParams({})}>See all products</button>
+        </div>
+      )}
 
-      {data && (
+      {data && !error && (
         <>
           <div className="grid">
             {data.products.map((p) => (

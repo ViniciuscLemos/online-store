@@ -874,7 +874,40 @@ button:focus-visible {
 
 .empty-state {
   text-align: center;
-  padding: 60px 0;
+  padding: 60px 16px;
+}
+
+.empty-state h1,
+.empty-state h2 {
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  margin: 0 auto 20px;
+  max-width: 420px;
+}
+
+/* a message with an action on the right (try again, etc.) */
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  margin-bottom: 24px;
+}
+
+.notice p {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.notice.error {
+  border-color: var(--red);
+  border-left-width: 4px;
 }
 
 /* auth */
