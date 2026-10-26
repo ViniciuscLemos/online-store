@@ -41,27 +41,27 @@ function QuickAdd({ product }) {
       onClick={add}
       disabled={busy || full}
       aria-label={full ? `All the ${product.name} left are in your cart` : `Add ${product.name} to the cart`}
-      title={full ? 'All in your cart' : 'Add to cart'}
     >
-      <Icon name={full ? 'check' : 'plus'} size={20} />
+      <Icon name={full ? 'check' : 'plus'} size={18} />
+      <span className="quick-add-text">{full ? 'All in your cart' : busy ? 'Adding...' : 'Add to cart'}</span>
     </button>
   );
 }
 
 export function ProductCard({ product }) {
+  const soldOut = product.stock === 0;
+  const low = !soldOut && product.stock <= 5;
   return (
-    <article className="product-card">
+    <article className={`product-card ${soldOut ? 'sold-out' : ''}`}>
       <Link to={`/products/${product.slug}`} className="product-link">
-        <ProductImage product={product} />
+        <div className="product-media">
+          <ProductImage product={product} />
+          {(soldOut || low) && <span className={`tag ${soldOut ? 'out' : 'low'}`}>{stockLabel(product.stock)}</span>}
+        </div>
         <div className="product-info">
-          <span className="muted small">{product.category}</span>
-          <strong>{product.name}</strong>
-          <div className="row-between">
-            <span className="price">{money(product.priceCents)}</span>
-            <span className={`stock ${product.stock === 0 ? 'out' : product.stock <= 5 ? 'low' : ''}`}>
-              {stockLabel(product.stock)}
-            </span>
-          </div>
+          <span className="label">{product.category}</span>
+          <strong className="product-name">{product.name}</strong>
+          <span className="price">{money(product.priceCents)}</span>
         </div>
       </Link>
       <QuickAdd product={product} />
@@ -79,11 +79,11 @@ export function ProductGridSkeleton({ count = 8 }) {
     <div className="grid" aria-busy="true" aria-label="Loading products">
       {Array.from({ length: count }, (_, i) => (
         <div key={i} className="product-card">
-          <Skeleton height="auto" radius={0} style={{ aspectRatio: '1', display: 'block' }} />
+          <Skeleton height="auto" radius={6} style={{ aspectRatio: '1', display: 'block' }} />
           <div className="product-info">
-            <Skeleton width="40%" height={12} />
-            <Skeleton width="75%" height={18} />
-            <Skeleton width="30%" height={16} />
+            <Skeleton width="30%" height={10} radius={3} />
+            <Skeleton width="70%" height={18} radius={3} />
+            <Skeleton width="25%" height={16} radius={3} />
           </div>
         </div>
       ))}

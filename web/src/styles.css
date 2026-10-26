@@ -505,24 +505,12 @@ button:focus-visible {
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 18px;
+  gap: 36px 20px;
 }
 
 .product-card {
   position: relative;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
   color: var(--text);
-  box-shadow: var(--shadow);
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-
-.product-card:hover {
-  text-decoration: none;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
 }
 
 .product-link {
@@ -534,31 +522,138 @@ button:focus-visible {
   text-decoration: none;
 }
 
-.quick-add {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  border-radius: 50%;
-  background: var(--card);
-  color: var(--accent);
-  box-shadow: 0 4px 12px rgba(17, 24, 39, 0.15);
-  transition: transform 0.15s, background 0.15s;
+.product-media {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
 }
 
-.quick-add:hover:not(:disabled) {
-  background: var(--accent);
-  color: var(--on-accent);
-  transform: scale(1.08);
+.product-media .product-image {
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-media .product-image {
+  transform: scale(1.03);
+}
+
+.product-link:focus-visible {
+  outline: none;
+}
+
+.product-link:focus-visible .product-media {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.sold-out .product-image {
+  opacity: 0.5;
+  filter: grayscale(0.6);
+}
+
+.tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: var(--card);
+  color: var(--text);
+}
+
+.tag.low {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.tag.out {
+  background: var(--button);
+  color: var(--on-button);
+}
+
+.product-info {
+  padding: 12px 2px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-name {
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.25;
+}
+
+.product-info .price {
+  margin-top: 4px;
+}
+
+/* the add to cart bar slides up from the bottom of the picture on hover or keyboard focus */
+.quick-add {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 0;
+  margin-top: calc(100% - 54px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.product-card:hover .quick-add,
+.quick-add:focus-visible {
+  opacity: 1;
+  transform: none;
 }
 
 .quick-add:disabled {
+  background: var(--card);
   color: var(--muted);
   cursor: default;
+}
+
+/* on touch screens there is no hover, so it's a small round button that is always there */
+@media (hover: none) {
+  .quick-add {
+    left: auto;
+    right: 8px;
+    margin-top: calc(100% - 50px);
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    opacity: 1;
+    transform: none;
+  }
+
+  .quick-add-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-media .product-image,
+  .quick-add {
+    transition: none;
+  }
+
+  .product-card:hover .product-media .product-image {
+    transform: none;
+  }
 }
 
 .skeleton {
@@ -580,13 +675,6 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 14px;
-}
-
-.product-info {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
 }
 
 .product-image {
@@ -1195,17 +1283,11 @@ tr.archived td {
 
   .grid {
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 28px 12px;
   }
 
-  .product-info {
-    padding: 10px 12px 12px;
-  }
-
-  .product-info .row-between {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+  .product-name {
+    font-size: 0.95rem;
   }
 
   .cart-list li {
