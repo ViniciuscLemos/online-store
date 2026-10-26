@@ -1,44 +1,54 @@
 :root {
   color-scheme: light dark;
-  --bg: #f6f7fb;
-  --card: #fff;
-  --text: #111827;
-  --muted: #5d6472;
-  --border: #e5e7eb;
-  --soft: #eef0f6;
-  --accent: #4f46e5;
-  --accent-dark: #4338ca;
-  --accent-soft: #eef2ff;
+  --font: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --bg: #f5f2ec;
+  --card: #fffdf9;
+  --text: #1c1b18;
+  --muted: #625e55;
+  --border: #e2ddd3;
+  --soft: #ebe6dc;
+  --accent: #b93a12;
+  --accent-dark: #962e0d;
+  --accent-soft: #f8e3d8;
   --on-accent: #fff;
-  --green: #15803d;
-  --green-soft: #dcfce7;
-  --red: #b91c1c;
-  --red-soft: #fee2e2;
-  --amber: #b45309;
-  --amber-soft: #fef3c7;
-  --shadow: 0 1px 3px rgba(17, 24, 39, 0.06), 0 4px 16px rgba(17, 24, 39, 0.04);
+  /* the main buttons are ink colored, the rust is for links and small highlights */
+  --button: #1c1b18;
+  --button-hover: #3a3832;
+  --on-button: #f5f2ec;
+  --green: #2f6b2f;
+  --green-soft: #dfecd8;
+  --red: #b42318;
+  --red-soft: #f9e0dc;
+  --amber: #8f5300;
+  --amber-soft: #f6e7c8;
+  --radius: 6px;
+  --shadow: 0 1px 2px rgba(28, 27, 24, 0.06);
 }
 
 /* follows the system theme */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1117;
-    --card: #181b24;
-    --text: #e5e7eb;
-    --muted: #9ca3af;
-    --border: #2a2f3c;
-    --soft: #222632;
-    --accent: #818cf8;
-    --accent-dark: #6366f1;
-    --accent-soft: #23264a;
-    --on-accent: #0f1117;
-    --green: #4ade80;
-    --green-soft: #14301f;
-    --red: #f87171;
-    --red-soft: #3a1717;
-    --amber: #fbbf24;
+    --bg: #161512;
+    --card: #1f1d19;
+    --text: #efe9de;
+    --muted: #a8a196;
+    --border: #34312b;
+    --soft: #2a2823;
+    --accent: #f08a5d;
+    --accent-dark: #f4a27e;
+    --accent-soft: #3a2418;
+    --on-accent: #161512;
+    --button: #efe9de;
+    --button-hover: #d6cfc2;
+    --on-button: #161512;
+    --green: #8ccf8a;
+    --green-soft: #1d2e1c;
+    --red: #f2867a;
+    --red-soft: #3a1a16;
+    --amber: #e9b44c;
     --amber-soft: #3a2c10;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 }
 
@@ -48,10 +58,11 @@
 
 body {
   margin: 0;
-  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font);
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -71,15 +82,32 @@ p a,
   text-underline-offset: 2px;
 }
 
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
 h1 {
-  font-size: 1.7rem;
+  font-size: 2.1rem;
   margin: 0 0 16px;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 h2 {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+/* small uppercase labels, prices and order numbers use the mono font */
+.label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
 }
 
 .container {
@@ -107,17 +135,17 @@ button,
   font: inherit;
   cursor: pointer;
   border: none;
-  border-radius: 10px;
-  padding: 10px 18px;
-  background: var(--accent);
-  color: var(--on-accent);
+  border-radius: var(--radius);
+  padding: 11px 20px;
+  background: var(--button);
+  color: var(--on-button);
   font-weight: 600;
   display: inline-block;
 }
 
 button:hover:not(:disabled),
 .button:hover {
-  background: var(--accent-dark);
+  background: var(--button-hover);
   text-decoration: none;
 }
 
@@ -126,13 +154,16 @@ button:disabled {
   cursor: not-allowed;
 }
 
-button.secondary {
-  background: var(--soft);
+button.secondary,
+.button.secondary {
+  background: transparent;
   color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-button.secondary:hover:not(:disabled) {
-  background: var(--border);
+button.secondary:hover:not(:disabled),
+.button.secondary:hover {
+  background: var(--soft);
 }
 
 button.link {
@@ -168,7 +199,7 @@ textarea {
   color: var(--text);
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
   padding: 10px 12px;
   width: 100%;
 }
@@ -194,9 +225,8 @@ button:focus-visible {
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius);
   padding: 22px;
-  box-shadow: var(--shadow);
 }
 
 .muted { color: var(--muted); }
@@ -216,7 +246,7 @@ button:focus-visible {
 .error-box,
 .success-box {
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--red-soft);
   color: var(--red);
 }
@@ -518,7 +548,8 @@ button:focus-visible {
 }
 
 .price {
-  font-weight: 700;
+  font-family: var(--mono);
+  font-weight: 600;
 }
 
 .price.big {
