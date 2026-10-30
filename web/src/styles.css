@@ -516,6 +516,27 @@ button:focus-visible {
   margin: 4px 0 0;
 }
 
+.catalog-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 18px;
+}
+
+.in-stock {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.in-stock input {
+  width: auto;
+  margin: 0;
+}
+
 .sort {
   display: flex;
   align-items: center;

@@ -38,6 +38,10 @@ test('a visitor browses, filters and opens a product', async ({ page }) => {
   await expect(cards).toHaveCount(2);
   for (const text of await cards.allTextContents()) expect(text).toContain('Mugs');
 
+  await page.getByLabel('Only in stock').check();
+  await expect(page).toHaveURL(/category=Mugs.*in_stock=1|in_stock=1.*category=Mugs/);
+  await expect(cards).toHaveCount(2);
+
   await page.getByRole('link', { name: /Classic Coffee Mug/ }).click();
   await expect(page.getByRole('heading', { name: 'Classic Coffee Mug' })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toContainText('Mugs');

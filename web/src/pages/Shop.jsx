@@ -48,6 +48,7 @@ export default function Shop() {
   const sort = params.get('sort') ?? 'newest';
   const page = Number(params.get('page') ?? 1);
   const search = params.get('search') ?? '';
+  const inStock = params.get('in_stock') === '1';
 
   useEffect(() => {
     api.get('/products/categories').then((r) => setCategories(r.categories)).catch(() => {});
@@ -57,6 +58,7 @@ export default function Shop() {
     const query = new URLSearchParams({ sort, page, limit: 12 });
     if (category) query.set('category', category);
     if (search) query.set('search', search);
+    if (inStock) query.set('in_stock', '1');
     // the free server sleeps when nobody uses it, so the first load can take a while
     const timer = setTimeout(() => setSlow(true), 4000);
     api
@@ -71,7 +73,7 @@ export default function Shop() {
         setSlow(false);
       });
     return () => clearTimeout(timer);
-  }, [search, category, sort, page, attempt]);
+  }, [search, category, sort, page, inStock, attempt]);
 
   // changing a filter goes back to page 1
   function update(changes) {
@@ -93,6 +95,11 @@ export default function Shop() {
           <h1>{search ? `Results for "${search}"` : category || 'All products'}</h1>
           {data && <p className="muted small">{data.total} {data.total === 1 ? 'product' : 'products'}</p>}
         </div>
+        <div className="catalog-tools">
+        <label className="in-stock small">
+          <input type="checkbox" checked={inStock} onChange={(e) => update({ in_stock: e.target.checked ? '1' : '' })} />
+          Only in stock
+        </label>
         <label className="sort">
           <span className="muted small">Sort by</span>
           <select value={sort} onChange={(e) => update({ sort: e.target.value })}>
@@ -102,6 +109,7 @@ export default function Shop() {
             <option value="name">Name</option>
           </select>
         </label>
+        </div>
       </div>
 
       <div className="categories" role="group" aria-label="Categories">
