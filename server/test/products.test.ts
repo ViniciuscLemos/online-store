@@ -53,6 +53,18 @@ describe('store catalog', () => {
     expect(categories.body.categories).toEqual(['Apparel', 'Desk', 'Mugs', 'Tech']);
   });
 
+  it('can hide what is out of stock', async () => {
+    const agent = await admin();
+    await agent.post('/api/admin/products').send(mug);
+    await agent.post('/api/admin/products').send({ ...mug, name: 'Sold Out Mug', stock: 0 });
+
+    const all = await request(ctx.app).get('/api/products');
+    expect(all.body.total).toBe(2);
+    const available = await request(ctx.app).get('/api/products?in_stock=1');
+    expect(available.body.products.map((p: { name: string }) => p.name)).toEqual(['Blue Mug']);
+    expect((await request(ctx.app).get('/api/products?in_stock=yes')).status).toBe(400);
+  });
+
   it('search treats % and _ as plain text', async () => {
     const agent = await admin();
     await agent.post('/api/admin/products').send({ ...mug, name: '100% Cotton Bag' });

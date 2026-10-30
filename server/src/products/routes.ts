@@ -1,4 +1,4 @@
-import { and, asc, count, desc, eq, ilike, lte, or, type SQL } from 'drizzle-orm';
+import { and, asc, count, desc, eq, gt, ilike, lte, or, type SQL } from 'drizzle-orm';
 import { Router } from 'express';
 import { z } from 'zod';
 import { requireRole } from '../auth/middlewares.js';
@@ -69,6 +69,7 @@ export function productRoutes(db: Db) {
       eq(products.active, true),
       searchFilter(q.search),
       q.category ? eq(products.category, q.category) : undefined,
+      q.in_stock ? gt(products.stock, 0) : undefined,
     );
     const { rows, meta } = await page(db, where, SORTS[q.sort], q.page, q.limit);
     res.json({ products: rows.map(toPublicProduct), ...meta });

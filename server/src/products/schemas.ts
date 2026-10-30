@@ -56,6 +56,7 @@ export const listQuery = z.object({
   search: z.string().trim().max(100).optional(),
   category: z.string().trim().max(40).optional(),
   sort: z.enum(['newest', 'price_asc', 'price_desc', 'name']).default('newest'),
+  in_stock: z.literal('1').optional(),
   page,
   limit: z.coerce.number().int().min(1).max(60).default(12),
 });
