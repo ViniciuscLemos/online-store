@@ -38,7 +38,10 @@ test('a visitor browses, filters and opens a product', async ({ page }) => {
   await expect(cards).toHaveCount(2);
   for (const text of await cards.allTextContents()) expect(text).toContain('Mugs');
 
-  await page.getByLabel('Only in stock').check();
+  // click + toBeChecked instead of check(): the box follows the url, which updates a moment after the click
+  const inStock = page.getByLabel('Only in stock');
+  await inStock.click();
+  await expect(inStock).toBeChecked();
   await expect(page).toHaveURL(/category=Mugs.*in_stock=1|in_stock=1.*category=Mugs/);
   await expect(cards).toHaveCount(2);
 
