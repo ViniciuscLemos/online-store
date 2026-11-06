@@ -1,10 +1,5 @@
-# Render config (Blueprint): a free Postgres plus one service that builds React and starts the API,
+# Render config (Blueprint): one service that builds React and starts the API,
 # which serves both. Without Stripe keys or SMTP the store runs as a demo: demo checkout and the in-app inbox.
-databases:
-  - name: online-store-db
-    plan: free
-    region: virginia
-
 services:
   - type: web
     name: online-store
@@ -21,11 +16,16 @@ services:
         value: production
       - key: SEED_SAMPLE_PRODUCTS
         value: "true"
-      # PGlite doesn't fit in the free instance's 512 MB, so the deploy uses a real Postgres
+      # PGlite doesn't fit in the free instance's 512 MB, so the deploy uses a real Postgres:
+      # a free Neon one (Render's free database is deleted after 30 days). The connection is
+      # borrowed from the link shortener on the same Neon project, with its own database.
       - key: DATABASE_URL
-        fromDatabase:
-          name: online-store-db
-          property: connectionString
+        fromService:
+          type: web
+          name: trail
+          envVarKey: DATABASE_URL
+      - key: DATABASE_NAME
+        value: online_store
       # optional, each one turns a demo part into the real thing
       - key: STRIPE_SECRET_KEY
         sync: false
