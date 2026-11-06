@@ -116,9 +116,9 @@ npm run test:e2e
 
 ## Deploy
 
-`render.yaml` describes the deploy: a Postgres database and one web service. Render runs `npm run build` (React + TypeScript), starts the API, and the API also serves the React build, so the store and the API live on the same address. The sample products are added on start (`SEED_SAMPLE_PRODUCTS`), and setting the Stripe keys and `SMTP_URL` turns each demo part into the real thing, with no code change.
+`render.yaml` describes the deploy: one web service, with the database on a free [Neon](https://neon.tech) Postgres. Render runs `npm run build` (React + TypeScript), starts the API, and the API also serves the React build, so the store and the API live on the same address. The sample products are added on start (`SEED_SAMPLE_PRODUCTS`), and setting the Stripe keys and `SMTP_URL` turns each demo part into the real thing, with no code change.
 
-I first tried to deploy with PGlite to avoid a separate database, but Postgres running inside Node needs more than the 512 MB of the free instance, so the deploy uses a real Postgres (Render's free one expires after 30 days, so for something permanent the `DATABASE_URL` can point to any other Postgres, like Neon).
+I first tried to deploy with PGlite to avoid a separate database, but Postgres running inside Node needs more than the 512 MB of the free instance, so the deploy uses a real Postgres. It started on Render's free one, which is deleted after 30 days, and moved to Neon. It shares the Neon project of my link shortener: the blueprint borrows that service's `DATABASE_URL`, and `DATABASE_NAME` swaps the database, so no password gets copied by hand.
 
 ## API routes
 
